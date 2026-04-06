@@ -2,7 +2,7 @@ import random
 import string
 
 # اختيار الكمبيوتر للكلمة
-words = ["car", "banana", "mosqueto", "laptop", "malaysa", "program"]
+words = ["kitchen", "vast", "modern", "laptop", "mosquito", "program"]
 com_choice = random.choice(words)
 # طباعة عدد احرف الكلمات للمستخدم
 secret = []
@@ -29,7 +29,7 @@ print(f"Ok, you have {int_tries} tries, GO ON!")
 # تخمين الحرف
 while "_" in secret:
     if int_tries > 0:
-        guess = input("Guess a letter: ")
+        guess = input("Guess a letter: ").lower()
         # للتحقق من ان الحرف صحيح او لا
         com_word_letters = []
         for x in com_choice:
