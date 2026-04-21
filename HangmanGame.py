@@ -5,10 +5,9 @@ import string
 words = ["kitchen", "vast", "modern", "laptop", "mosquito", "program"]
 com_choice = random.choice(words)
 # طباعة عدد احرف الكلمات للمستخدم
-secret = []
-for letter in com_choice:
-    secret.append("_")
-print(secret)
+secret = ["_"] * len(com_choice)
+
+print("(", " ".join(secret), ")")
 # عدد محاولات المستخدم (هو الي يختارها)
 tries = input("How many tries u need: ")
 # للتحقق من ان المدخل ارقام
@@ -40,13 +39,13 @@ while "_" in secret:
             for position in range(len(com_choice)):
                 if com_choice[position] == guess:
                     secret[position] = guess
-            print(secret)
+            print("(", " ".join(secret), ")")
             int_tries -= 0
             if "_" not in (secret):
                 break
             print(f"You gussed right!, still have {int_tries} tries.")
         else:
-            print(secret)
+            print("(", " ".join(secret), ")")
             int_tries -= 1
             print(f"You guessed wrong, you have {int_tries} tries now.")
     elif int_tries == 0 or int_tries < 0:
