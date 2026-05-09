@@ -1,65 +1,109 @@
+hangman_ascii = [
+    """
+  +---+
+  |   |
+      |
+      |
+      |
+      |
+=========""",
+    """
+  +---+
+  |   |
+  O   |
+      |
+      |
+      |
+=========""",
+    """
+  +---+
+  |   |
+  O   |
+  |   |
+      |
+      |
+=========""",
+    """
+  +---+
+  |   |
+  O   |
+ /|   |
+      |
+      |
+=========""",
+    """
+  +---+
+  |   |
+  O   |
+ /|\  |
+      |
+      |
+=========""",
+    """
+  +---+
+  |   |
+  O   |
+ /|\  |
+ /    |
+      |
+=========""",
+    """
+  +---+
+  |   |
+  O   |
+ /|\  |
+ / \  |
+      |
+=========""",
+]
 import random
-import string
 
-# اختيار الكمبيوتر للكلمة
-words = ["kitchen", "vast", "modern", "laptop", "mosquito", "program"]
-com_choice = random.choice(words)
-# طباعة عدد احرف الكلمات للمستخدم
-secret = ["_"] * len(com_choice)
+# computer_word
 
-print("(", " ".join(secret), ")")
-# عدد محاولات المستخدم (هو الي يختارها)
-tries = input("How many tries u need: ")
-# للتحقق من ان المدخل ارقام
-ver = []
-for x in string.digits:
-    ver.append(x)
-while True:
-    if tries not in ver:
-        print("Invalid input, please choose only numbers...")
-        tries = input("How many tries u need: ")
-    elif str(tries) in ver and tries == "0":
-        print("You can't choose 0, please try again...")
-        tries = input("How many tries u need: ")
+words = ["bird", "car", "fans", "room", "shirt", "billow"]
+com_word = random.choice(words)
+
+# the interface
+
+print("Welcome to guess the word game!")
+display = ["_"] * len(com_word)
+the_word_in_letters = []
+for x in com_word:
+    the_word_in_letters += x
+print(" ".join(display))
+print(hangman_ascii[0])
+
+lives = 6
+guessed_letters = []
+
+while "_" in display and lives > 0:
+    letter = input("guess a letter: ")
+    
+    # checking
+    
+    if letter in guessed_letters:
+        print("you guessed this one, guess another letter: ")
+        continue
+        
     else:
-        break
-int_tries = int(tries)
-print(f"Ok, you have {int_tries} tries, GO ON!")
-# تخمين الحرف
-while "_" in secret:
-    if int_tries > 0:
-        guess = input("Guess a letter: ").lower()
-        # للتحقق من ان الحرف صحيح او لا
-        com_word_letters = []
-        for x in com_choice:
-            com_word_letters.append(x)
-        # لدينا الاحرف متقطعة للكلمة المختارة
-        # اذا كان التخمين صحيح
-        if guess in com_word_letters:
-            for position in range(len(com_choice)):
-                if com_choice[position] == guess:
-                    secret[position] = guess
-            print("(", " ".join(secret), ")")
-            int_tries -= 0
-            if "_" not in (secret):
-                break
-            print(f"You gussed right!, still have {int_tries} tries.")
+        guessed_letters.append(letter)
+
+        # right guess
+        if letter in the_word_in_letters:
+            print("right!!!")
+            for x in range(len(the_word_in_letters)):
+                if the_word_in_letters[x] == letter:
+                    display[x] = letter
+            print(" ".join(display))
         else:
-            print("(", " ".join(secret), ")")
-            int_tries -= 1
-            print(f"You guessed wrong, you have {int_tries} tries now.")
-    elif int_tries == 0 or int_tries < 0:
-        print("""
-   You Lost!
-   =========''', '''
-     +---+
-     |   |
-     O   |
-    /|\  |
-    / \  |
-         |
-   ========='''] """)
-        print(f"The word was, {com_choice}")
-        quit()
-print("***   You Woooon!!!   ***")
-quit()
+            # wrong guess
+            lives -= 1
+            print(f"wrong, you have {lives} lives left.")
+            print(hangman_ascii[6 - lives])
+# finishing
+if lives == 0:
+    print("you lost!!!")
+    print(f"the word was {com_word}")
+else:
+    print(com_word)
+    print("You Wooon!")
